@@ -1,7 +1,9 @@
 '''
 Created on Aug 14, 2016
-
-@author: sam
+DBUS HTTP Forwarder
+Forwards all messages received from an 
+HTTP listener to a DBUS message on Ubuntu
+@author: digfish
 '''
 from oauthlib.common import urldecode
 APP_NAME = __name__
@@ -35,7 +37,7 @@ class MyHandler(BaseHTTPRequestHandler):
         sep = os.sep
 
         try:
-            print self.command, self.path
+            print (self.command, self.path)
 
             query = urlparse(self.path).query
             query_components = dict(qc.split("=") for qc in urllib.unquote_plus(query).split("&"))
@@ -55,7 +57,7 @@ class MyHandler(BaseHTTPRequestHandler):
             show_message(query_components['title'], query_components['msg'])
 
         except:
-            print "Unexpected error:", sys.exc_info()[0]
+            print ("Unexpected error:", sys.exc_info()[0])
             raise
 
         self.wfile.close()
@@ -88,7 +90,7 @@ def main():
 
     httpd = serv.TCPServer(("", port), handler)
 
-    print 'Listening at', port
+    print ('Listening at', port)
     try:
         httpd.serve_forever()
     except:
